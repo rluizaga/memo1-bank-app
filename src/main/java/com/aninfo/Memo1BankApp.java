@@ -83,13 +83,7 @@ public class Memo1BankApp {
 
 	@PostMapping("/transactions")
 	@ResponseStatus(HttpStatus.CREATED)
-	public Transactions createAccount(@RequestBody Transactions transaction) {
-		if (Objects.equals(transaction.getType(), "withdraw")) {
-			accountService.withdraw(transaction.getCbu(),transaction.getAmount());
-		}
-		if (Objects.equals(transaction.getType(), "deposit")) {
-			accountService.deposit(transaction.getCbu(), transaction.getAmount());
-		}
+	public Transactions createTransaction(@RequestBody Transactions transaction) {
 		return transactionService.createTransaction(transaction);
 	}
 
