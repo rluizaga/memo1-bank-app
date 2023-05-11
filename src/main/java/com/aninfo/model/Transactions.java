@@ -9,7 +9,9 @@ import javax.persistence.Id;
 public class Transactions {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long transactionID;
+
     private Long cbu;
 
     private Double amount;
@@ -22,6 +24,14 @@ public class Transactions {
     public Transactions(Double amount, String type) {
         this.amount = amount;
         this.type = type;
+    }
+
+    public Long getTransactionID() {
+        return transactionID;
+    }
+
+    public void setTransactionID(Long transactionID) {
+        this.transactionID = transactionID;
     }
 
     public Long getCbu() {
