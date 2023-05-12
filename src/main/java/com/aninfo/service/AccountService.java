@@ -53,9 +53,15 @@ public class AccountService {
 
     @Transactional
     public Account deposit(Long cbu, Double sum) {
+        double extra = 0;
 
         if (sum <= 0) {
             throw new DepositNegativeSumException("Cannot deposit negative sums");
+        }
+
+        if (sum >= 2000) {
+            extra = Math.min(sum * 0.1, 500);
+            sum += extra;
         }
 
         Account account = accountRepository.findAccountByCbu(cbu);
