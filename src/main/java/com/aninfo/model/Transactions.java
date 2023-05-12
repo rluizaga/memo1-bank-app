@@ -1,9 +1,6 @@
 package com.aninfo.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Transactions {
@@ -16,12 +13,13 @@ public class Transactions {
 
     private Double amount;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private TransactionType type;
 
     public Transactions(){
     }
 
-    public Transactions(Double amount, String type) {
+    public Transactions(Double amount, TransactionType type) {
         this.amount = amount;
         this.type = type;
     }
@@ -50,11 +48,11 @@ public class Transactions {
         this.amount = amount;
     }
 
-    public String getType() {
+    public TransactionType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TransactionType type) {
         this.type = type;
     }
 }

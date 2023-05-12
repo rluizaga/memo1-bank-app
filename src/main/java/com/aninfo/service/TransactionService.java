@@ -1,6 +1,7 @@
 package com.aninfo.service;
 
 import com.aninfo.model.Account;
+import com.aninfo.model.TransactionType;
 import com.aninfo.model.Transactions;
 import com.aninfo.repository.AccountRepository;
 import com.aninfo.repository.TransactionRepository;
@@ -22,10 +23,10 @@ public class TransactionService {
     }
 
     public Transactions createTransaction(Transactions transaction) {
-        if (Objects.equals(transaction.getType(), "withdraw")) {
+        if (transaction.getType() == TransactionType.WITHDRAW) {
             accountService.withdraw(transaction.getCbu(),transaction.getAmount());
         }
-        if (Objects.equals(transaction.getType(), "deposit")) {
+        if (transaction.getType() == TransactionType.DEPOSIT) {
             accountService.deposit(transaction.getCbu(), transaction.getAmount());
         }
         return transactionRepository.save(transaction);
