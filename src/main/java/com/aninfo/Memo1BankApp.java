@@ -82,6 +82,22 @@ public class Memo1BankApp {
 		return transactionService.getTransactions();
 	}
 
+	@GetMapping("/transactions/{transactionID}")
+	public ResponseEntity<Transactions> getTransaction(@PathVariable Long transactionID) {
+		Optional<Transactions> transactionsOptional = transactionService.findById(transactionID);
+		return ResponseEntity.of(transactionsOptional);
+	}
+
+	@GetMapping("/transactions/cbu/{cbu}")
+	public Collection<Transactions> getTransactions(@PathVariable Long cbu) {
+		return transactionService.findByCbu(cbu);
+	}
+
+	@DeleteMapping("/transactions/{transactionID}")
+	public void deleteTransaction(@PathVariable Long transactionID) {
+		transactionService.deleteById(transactionID);
+	}
+
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
