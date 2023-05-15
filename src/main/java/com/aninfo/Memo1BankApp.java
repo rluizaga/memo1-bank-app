@@ -94,8 +94,8 @@ public class Memo1BankApp {
 	}
 
 	@DeleteMapping("/transactions/{transactionID}")
-	public void deleteTransaction(@PathVariable Long transactionID) {
-		transactionService.deleteById(transactionID);
+	public ResponseEntity<Void> deleteTransaction(@PathVariable Long transactionID) {
+		return transactionService.deleteById(transactionID);
 	}
 
 	@Bean
