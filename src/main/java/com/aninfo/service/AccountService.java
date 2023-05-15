@@ -18,7 +18,7 @@ public class AccountService {
     private AccountRepository accountRepository;
 
     public Account createAccount(Account account) {
-        if (account.getBalance() <= 0) {
+        if (account.getBalance() < 0) {
             throw new DepositNegativeSumException("Cannot create negative balance account");
         }
         return accountRepository.save(account);
