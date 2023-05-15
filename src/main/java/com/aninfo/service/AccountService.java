@@ -1,8 +1,6 @@
 package com.aninfo.service;
 
-import com.aninfo.exceptions.DepositNegativeSumException;
-import com.aninfo.exceptions.DepositNullSumException;
-import com.aninfo.exceptions.InsufficientFundsException;
+import com.aninfo.exceptions.*;
 import com.aninfo.model.Account;
 import com.aninfo.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +42,14 @@ public class AccountService {
     @Transactional
     public Account withdraw(Long cbu, Double sum) {
         Account account = accountRepository.findAccountByCbu(cbu);
+
+        if (sum == 0) {
+            throw new WithdrawNullException("Cannot withdraw null sums");
+        }
+
+        if (sum < 0 ) {
+            throw new WithdrawNegativeException("Cannot withdraw negative sums");
+        }
 
         if (account.getBalance() < sum) {
             throw new InsufficientFundsException("Insufficient funds");

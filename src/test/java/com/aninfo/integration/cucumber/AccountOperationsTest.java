@@ -1,8 +1,6 @@
 package com.aninfo.integration.cucumber;
 
-import com.aninfo.exceptions.DepositNegativeSumException;
-import com.aninfo.exceptions.DepositNullSumException;
-import com.aninfo.exceptions.InsufficientFundsException;
+import com.aninfo.exceptions.*;
 import com.aninfo.model.Account;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
@@ -19,8 +17,9 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     private Account account;
     private InsufficientFundsException ife;
     private DepositNegativeSumException dnse;
-
     private DepositNullSumException dnlse;
+    private WithdrawNegativeException wne;
+    private WithdrawNullException wnle;
 
     @Before
     public void setup() {
@@ -32,12 +31,16 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
         account = createAccount(Double.valueOf(balance));
     }
 
-    @When("^Trying to withdraw (\\d+)$")
+    @When("^Trying to withdraw (.*)$")
     public void trying_to_withdraw(int sum) {
         try {
             account = withdraw(account, Double.valueOf(sum));
         } catch (InsufficientFundsException ife) {
             this.ife = ife;
+        } catch (WithdrawNegativeException wne) {
+            this.wne = wne;
+        } catch (WithdrawNullException wnle) {
+            this.wnle = wnle;
         }
     }
 
@@ -70,6 +73,16 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     @Then("^Operation should be denied due to null sum$")
     public void operation_should_be_denied_due_to_null_sum() {
         assertNotNull(dnlse);
+    }
+
+    @Then("^Operation should be denied due to negative withdraw$")
+    public void operation_should_be_denied_due_to_negative_withdraw() {
+        assertNotNull(wne);
+    }
+
+    @Then("^Operation should be denied due to null withdraw$")
+    public void operation_should_be_denied_due_to_null_withdraw() {
+        assertNotNull(wnle);
     }
 
     @And("^Account balance should remain (\\d+)$")

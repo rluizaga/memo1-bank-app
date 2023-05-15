@@ -12,6 +12,18 @@ Feature: Bank account operations
     Then Operation should be denied due to insufficient funds
     And Account balance should remain 1000
 
+  Scenario: Cannot withdraw money when sum is negative
+    Given Account with a balance of 200
+    When Trying to withdraw -100
+    Then Operation should be denied due to negative withdraw
+    And Account balance should remain 200
+
+  Scenario: Cannot withdraw money when sum is null
+    Given Account with a balance of 200
+    When Trying to withdraw 0
+    Then Operation should be denied due to null withdraw
+    And Account balance should remain 200
+
   Scenario: Successfully deposit money when sum is not negative
     Given Account with a balance of 1000
     When Trying to deposit 500
