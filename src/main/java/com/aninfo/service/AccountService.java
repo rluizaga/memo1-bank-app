@@ -43,6 +43,10 @@ public class AccountService {
     public Account withdraw(Long cbu, Double sum) {
         Account account = accountRepository.findAccountByCbu(cbu);
 
+        if (account == null) {
+            throw new AccountNotFoundException("Account not found");
+        }
+
         if (sum == 0) {
             throw new WithdrawNullException("Cannot withdraw null sums");
         }
@@ -79,6 +83,11 @@ public class AccountService {
         }
 
         Account account = accountRepository.findAccountByCbu(cbu);
+
+        if (account == null) {
+            throw new AccountNotFoundException("Account not found");
+        }
+
         account.setBalance(account.getBalance() + sum);
         accountRepository.save(account);
 
