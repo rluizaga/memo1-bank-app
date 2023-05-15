@@ -1,6 +1,7 @@
 package com.aninfo.integration.cucumber;
 
 import com.aninfo.exceptions.DepositNegativeSumException;
+import com.aninfo.exceptions.DepositNullSumException;
 import com.aninfo.exceptions.InsufficientFundsException;
 import com.aninfo.model.Account;
 import cucumber.api.java.After;
@@ -18,6 +19,8 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     private Account account;
     private InsufficientFundsException ife;
     private DepositNegativeSumException dnse;
+
+    private DepositNullSumException dnlse;
 
     @Before
     public void setup() {
@@ -44,6 +47,8 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
             account = deposit(account, Double.valueOf(sum));
         } catch (DepositNegativeSumException dnse) {
             this.dnse = dnse;
+        } catch (DepositNullSumException dnlse) {
+            this.dnlse = dnlse;
         }
     }
 
@@ -60,6 +65,11 @@ public class AccountOperationsTest extends AccountIntegrationServiceTest {
     @Then("^Operation should be denied due to negative sum$")
     public void operation_should_be_denied_due_to_negative_sum() {
         assertNotNull(dnse);
+    }
+
+    @Then("^Operation should be denied due to null sum$")
+    public void operation_should_be_denied_due_to_null_sum() {
+        assertNotNull(dnlse);
     }
 
     @And("^Account balance should remain (\\d+)$")

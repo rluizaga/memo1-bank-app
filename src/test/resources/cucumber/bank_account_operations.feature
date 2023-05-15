@@ -22,3 +22,9 @@ Feature: Bank account operations
     When Trying to deposit -100
     Then Operation should be denied due to negative sum
     And Account balance should remain 200
+
+  Scenario: Cannot deposit money when sum is null
+    Given Account with a balance of 200
+    When Trying to deposit 0
+    Then Operation should be denied due to null sum
+    And Account balance should remain 200

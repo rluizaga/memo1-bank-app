@@ -1,6 +1,7 @@
 package com.aninfo.service;
 
 import com.aninfo.exceptions.DepositNegativeSumException;
+import com.aninfo.exceptions.DepositNullSumException;
 import com.aninfo.exceptions.InsufficientFundsException;
 import com.aninfo.model.Account;
 import com.aninfo.repository.AccountRepository;
@@ -58,7 +59,11 @@ public class AccountService {
     public Account deposit(Long cbu, Double sum) {
         double extra = 0;
 
-        if (sum <= 0) {
+        if (sum == 0) {
+            throw new DepositNullSumException("Cannot deposit null sums");
+        }
+
+        if (sum < 0) {
             throw new DepositNegativeSumException("Cannot deposit negative sums");
         }
 
